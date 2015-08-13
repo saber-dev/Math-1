@@ -22,14 +22,28 @@
     }
   }
 
-  function cryptMessage() {
-
+  function cryptMessageToBin($message) {
+    $binary_encode = array();
+    $count_test = strlen($message);
+    $current_result = null;
+    for ($i = 0; $count_test > $i; $i++) {
+      $current_result = sprintf("%08d", decbin(ord($message[$i])));
+      array_push($binary_encode, $current_result);
+    }
+    cutBinMessage($binary_encode);
   }
 
-  echo ord("S");
-  $tabTest = [1, 3, 5, 11, 25, 53, 101, 205, 512];
-  //
-  getPublicKey($tabTest, 960, 143);
+  function cutBinMessage($tabCrypt = array()) {
+    echo "function cutBinMessage called\n";
+    print_r($tabCrypt);
+  }
+
+  cryptMessageToBin("RAS");
+  //echo ord("R");
+  // echo decbin(ord("R"));
+  // $tabTest = [1, 3, 5, 11, 25, 53, 101, 205, 512];
+  // //
+  // getPublicKey($tabTest, 960, 143);
   // super_croissance_check($tabTest);
   //
   //
