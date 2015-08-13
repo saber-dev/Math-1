@@ -45,7 +45,5 @@
     }
   }
 
-//test values
-$tabTest = [1, 2, 5, 10, 20, 50];
-super_croissance_check($tabTest);
+//test value
 // echo $tabTest[0] + $tabTest[3];

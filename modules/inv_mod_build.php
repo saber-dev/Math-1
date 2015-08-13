@@ -36,13 +36,14 @@ function inv_mod($a, $n){
   $n_init = $n;
   $res = my_modulo($n, $a);
   if ($res == 1){
+    $test2;
     for ($i = 1;is_int($test2) != true;$i++){
       $test = $n * $i + 1;
       $test2 = $test / $a;
 
     }
     // return $test2;
-    echo $test2;
+    return $test2;
   }
 
   else if ($res == 0){
@@ -60,18 +61,18 @@ function inv_mod($a, $n){
       return 0;
     }
     else if ($res == 1){
+      $test2 = null;
       for ($i = 1; is_int($test2) != true;$i++){
         $test = $n_init * $i + 1;
         $test2 = $test / $a_init;
       }
-      echo $test2;
-      // return $test2;
+      return $test2;
     }
   }
-
 }
-//Exemple avec de grands nombres
-inv_mod(197, 3000);
+
+// tableau (1 3 5 11 25 53 101 205 512)
+// la clé publique (143 429 715 613 695 859 43 515 265)
 //Exemple qui fonctionne avec 0 iterations
 // inv_mod(13, 27);
 //Exemple avec 1 iteration
