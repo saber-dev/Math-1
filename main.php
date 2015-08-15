@@ -41,18 +41,3 @@
   }
 
   cryptMessageToBin("RAS");
-  //echo ord("R");
-  // echo decbin(ord("R"));
-  // $tabTest = [1, 3, 5, 11, 25, 53, 101, 205, 512];
-  // //
-  // getPublicKey($tabTest, 960, 143);
-  // super_croissance_check($tabTest);
-  //
-  //
-  //
-  // //Exemple avec de grands nombres
-  // $number = 512 * 143;
-  // //inv_mod($number, 960);
-  // echo my_modulo($number, 960);
-
-  // echo my_modulo($number, 960);
