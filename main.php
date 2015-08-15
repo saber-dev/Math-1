@@ -8,24 +8,26 @@
     $length_tab = count($tab);
     $public_key = array();
     $key_inv_mod = inv_mod($e, $mod);
+
     // verifier si c'est une supercroissante
     if (super_croissance_check($tab)) {
       for ( $i = 0; $i < $length_tab; $i++) {
         $current_operation = ($tab[$i] * $e);
-        $modulo_operation = my_modulo($current_operation, $mod);
+        $modulo_operation  = my_modulo($current_operation, $mod);
         array_push($public_key, $modulo_operation);
       }
       natsort($public_key);
       echo "voici la clé publique : \n";
-      print_r($public_key);
+      // print_r($public_key);
       echo "voici la clé principale : ", $key_inv_mod,"\n";
     }
   }
 
   function cryptMessageToBin($message) {
-    $binary_encode = array();
-    $count_test = strlen($message);
+    $binary_encode  = array();
+    $count_test     = strlen($message);
     $current_result = null;
+
     for ($i = 0; $count_test > $i; $i++) {
       $current_result = sprintf("%08d", decbin(ord($message[$i])));
       array_push($binary_encode, $current_result);
