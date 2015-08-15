@@ -1,6 +1,6 @@
 <?php
-  include_once __DIR__."/modules/super_croissante_check.php";
-  include_once __DIR__."/modules/inv_mod_build.php";
+  include_once __DIR__."/../modules/super_croissante_check.php";
+  include_once __DIR__."/../modules/inv_mod_build.php";
 
   // decoder le message
   function decryptMess($mess = array(), $mod, $d) {
@@ -72,6 +72,7 @@
     $length_mess   = strlen($mess);
     $count_numbers = 1;
 
+    //pour couper le message en plusieur morceaux en bloc de 8 chacune
     for ($i = 0; $i < $length_mess; $i++) {
       $tmp_mess .= $mess[$i];
       if ($count_numbers === 8) {
@@ -81,7 +82,7 @@
       }
       $count_numbers++;
     }
-    // retourner un array ordonné en 8bloc cahcune
+    // retourner un array ordonné en 8bloc chacune
     return $bin_array;
   }
 
@@ -97,6 +98,7 @@
 
   // decoder la clé publique
   function decryptKey($tab = array(), $d, $mod) {
+    $bin_message = null;
     $tmp_array = array();
     $array_new = array();
     // parcours du tableau
@@ -117,10 +119,3 @@
     $message_array = decryptMess($mess, $mod, $d);
     decryptMessToBin($key_array, $message_array);
   }
-
-  //clé publique
-  $tabTmp = [43, 143, 256, 429, 515, 613, 695, 715, 859];
-  //message codé
-  $tabmess = [1085, 515, 1185, 1128];
-  // fonction de decodage
-  decrypt($tabTmp, 47, 960, $tabmess);

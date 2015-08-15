@@ -1,43 +1,19 @@
 <?php
+  include_once __DIR__."/bootstrap/crypt.php";
+  include_once __DIR__."/bootstrap/decrypt.php";
 
-  // includes files from other files
-  include_once __DIR__."/modules/super_croissante_check.php";
-  include_once __DIR__."/modules/inv_mod_build.php";
+  // //clé publique
+  // $tabTmp = [43, 143, 256, 429, 515, 613, 695, 715, 859];
+  //
+  // //message codé ceci devrait afficher, Mahefa andrianifahanana
+  // $tabmess = [ 1012, 1639, 1341, 399, 1228, 987, 838, 613, 1128, 1825, 1380, 1137, 701, 912, 838, 2136, 1384,  1682,  1380,  914,  881,  299,  1895,  1351,  1570,  944,  613
+  // ];
+  //
+  // // fonction de decoder le message
+  // decrypt($tabTmp, 47, 960, $tabmess);
 
-  function getPublicKey($tab = array(), $mod, $e) {
-    $length_tab = count($tab);
-    $public_key = array();
-    $key_inv_mod = inv_mod($e, $mod);
+  // la clé privée
+  $private_key = [1, 3, 5, 11, 25, 53, 101, 205, 512];
 
-    // verifier si c'est une supercroissante
-    if (super_croissance_check($tab)) {
-      for ( $i = 0; $i < $length_tab; $i++) {
-        $current_operation = ($tab[$i] * $e);
-        $modulo_operation  = my_modulo($current_operation, $mod);
-        array_push($public_key, $modulo_operation);
-      }
-      natsort($public_key);
-      echo "voici la clé publique : \n";
-      // print_r($public_key);
-      echo "voici la clé principale : ", $key_inv_mod,"\n";
-    }
-  }
-
-  function cryptMessageToBin($message) {
-    $binary_encode  = array();
-    $count_test     = strlen($message);
-    $current_result = null;
-
-    for ($i = 0; $count_test > $i; $i++) {
-      $current_result = sprintf("%08d", decbin(ord($message[$i])));
-      array_push($binary_encode, $current_result);
-    }
-    cutBinMessage($binary_encode);
-  }
-
-  function cutBinMessage($tabCrypt = array()) {
-    echo "function cutBinMessage called\n";
-    print_r($tabCrypt);
-  }
-
-  cryptMessageToBin("RAS");
+  // fonction principale qui permet de coder le message
+  cryptMessage($private_key, 960, 143, "RAS");
