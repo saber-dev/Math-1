@@ -70,12 +70,3 @@ function inv_mod($a, $n){
     }
   }
 }
-
-// tableau (1 3 5 11 25 53 101 205 512)
-// la clé publique (143 429 715 613 695 859 43 515 265)
-//Exemple qui fonctionne avec 0 iterations
-// inv_mod(13, 27);
-//Exemple avec 1 iteration
-// inv_mod(8, 27);
-//Exemple qui n'a pas de pgcd
-// inv_mod(12, 27);
