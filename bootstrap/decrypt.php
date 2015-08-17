@@ -33,9 +33,13 @@
       array_push($array_sort, $values_in_array);
     }
 
+    echo $mess[1], "\n";
     // prendre les valeur dans le tableau
     for ($i = 0; $i < $mess_count; $i++) {
       $tmp_value = $mess[$i];
+      if ($tmp_value == 0) {
+        $full_bin_mess .= 0;
+      }
       while ($tmp_value > 0) {
         for ($j = ($key_count -1); $j >= 0; $j--) {
           if ($tmp_value >= $array_sort[$j]) {
@@ -46,7 +50,7 @@
             array_push($tmp_array, $array_sort[$j]);
           }
         }
-
+        // dans le cas ou si jamais une piece du tableau comporte des zero
         // la variable K doit etre égal au limiteur - 1, par exemple si on utilise 7 comme limiteur, alors k devra 6
         for ($k = 6; $k >= 0; $k--) {
           if (in_array($key[$k], $tmp_array)) {
@@ -62,6 +66,7 @@
       }
     }
     $sort_bin_array = sortBinMess($full_bin_mess);
+    echo $full_bin_mess, "\n";
     sortBinMessToRealMess($sort_bin_array);
   }
 

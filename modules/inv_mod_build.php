@@ -40,7 +40,6 @@ function inv_mod($a, $n){
     for ($i = 1;is_int($test2) != true;$i++){
       $test = $n * $i + 1;
       $test2 = $test / $a;
-
     }
     // return $test2;
     return $test2;
