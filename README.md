@@ -3,16 +3,17 @@
 Algorithme de hellman v0.1;
 
 # Fichier principal :
- - main.php
+ - hellman.php
 
 # Arbre du projet :
     Bootstrap :
      - crypt.php
      - decrypt.php
+     - keyCrypt.php
     modules :
      - inv_mod_build.php
      - super_croissante_check.php
-    main.php
+    hellman.php
     README.md
 
 # Comment l'utiliser :
