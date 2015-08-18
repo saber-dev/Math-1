@@ -33,7 +33,6 @@
       array_push($array_sort, $values_in_array);
     }
 
-    echo $mess[1], "\n";
     // prendre les valeur dans le tableau
     for ($i = 0; $i < $mess_count; $i++) {
       $tmp_value = $mess[$i];
@@ -43,6 +42,7 @@
       while ($tmp_value > 0) {
         for ($j = ($key_count -1); $j >= 0; $j--) {
           if ($tmp_value >= $array_sort[$j]) {
+
             $tmp_value -= $array_sort[$j];
             $result    += $array_sort[$j];
 
@@ -66,7 +66,7 @@
       }
     }
     $sort_bin_array = sortBinMess($full_bin_mess);
-    echo $full_bin_mess, "\n";
+    // echo $full_bin_mess, "\n";
     sortBinMessToRealMess($sort_bin_array);
   }
 
@@ -98,7 +98,7 @@
     foreach ($tab as $result_values) {
       $mess_decoded .= chr(bindec($result_values));
     }
-    echo "message decodé : ", $mess_decoded, "\n";
+    echo "Alice reçoit Le Message, et trouve comme Message une fois dechiffré : ", $mess_decoded, "\n";
   }
 
   // decoder la clé publique
@@ -117,10 +117,29 @@
   }
 
   // fonction maitresse
-  function decrypt($tab = array(),$d, $mod, $mess = array()) {
-    $key_array     = array();
+  function decrypt($tab = array(),$e, $mod, $mess = array(), $passKey) {
+
+    $new_key = array();
+    // $key_array     = array();
     $message_array = array();
-    $key_array     = decryptKey($tab, $d, $mod);
-    $message_array = decryptMess($mess, $mod, $d);
-    decryptMessToBin($key_array, $message_array);
+    // calcul de l'inverse modulaire
+    $inverse       = inv_mod($e, $mod);
+    $new_key       = passwd($passKey, $tab);
+    // $key_array     = decryptKey($tab, $inverse, $mod);
+    $message_array = decryptMess($mess, $mod, $inverse);
+
+    decryptMessToBin($new_key, $message_array);
+  }
+
+  // function permettant de dechiffrer le password
+  function passwd($string, $tab){
+   $new_array    = array();
+   $tmp_result   = null;
+   $count_string = strlen($string);
+
+   for ($i = 0;$i < $count_string;$i++){
+     $tmp_result = $string[$i];
+     array_push($new_array, $tab[$tmp_result]);
+   }
+   return $new_array;
   }

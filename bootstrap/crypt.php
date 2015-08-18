@@ -4,27 +4,6 @@
   include_once __DIR__."/../modules/super_croissante_check.php";
   include_once __DIR__."/../modules/inv_mod_build.php";
 
-  // avoir la clé publique
-  function getPublicKey($tab = array(), $mod, $e) {
-    $length_tab  = count($tab);
-    $public_key  = array();
-    $key_inv_mod = inv_mod($e, $mod);
-
-    for ( $i = 0; $i < $length_tab; $i++) {
-      $current_operation = ($tab[$i] * $e);
-      $modulo_operation  = my_modulo($current_operation, $mod);
-      array_push($public_key, $modulo_operation);
-    }
-    sort($public_key);
-    echo "voici la clé publique : [ ";
-    foreach ($public_key as $values_in_key) {
-      echo $values_in_key, " ";
-    }
-    echo "]\n";
-    echo "voici l'inverse modulaire : ", $key_inv_mod,"\n";
-    return $public_key;
-  }
-
   function cryptMessageToBin($message) {
     $binary_encode  = array();
     $count_test     = strlen($message);
@@ -67,8 +46,8 @@
   }
 
   // fonction pour calculer en fonction de la clé public
-  function resultPublicKeyEncode($tab = array(), $mod, $e, $mess) {
-    $public_key      = array();
+  function resultPublicKeyEncode($public_key = array(), $mess) {
+    // $public_key      = array();
     $message_sort    = array();
     $result_with_key = array();
 
@@ -77,33 +56,34 @@
     $tmp_result = array();
     $tmp_value  = null;
 
-    if (super_croissance_check($tab)) {
-      $public_key   = getPublicKey($tab, $mod, $e);
-      $message_sort = cutBinMessage($mess);
+    // $public_key   = getPublicKey($tab, $mod, $e);
+    $message_sort = cutBinMessage($mess);
+    // dans notre cas on va inverser le tableau en ordre croissant
+    sort($public_key);
 
-      // dans notre cas on va inverser le tableau en ordre croissant
-      sort($public_key);
-
-      //il ne reste plus qu'a crée une boucle pour parcourir le tableau
-      for ($i = 0; $i < count($message_sort); $i++) {
-        $tmp_value = $message_sort[$i];
-        for ($j = 6; $j >= 0; $j--) {
-          if($tmp_value[$j] == 1) {
-            array_push($tmp_result, $public_key[$j]);
-          }
+    //il ne reste plus qu'a crée une boucle pour parcourir le tableau
+    for ($i = 0; $i < count($message_sort); $i++) {
+      $tmp_value = $message_sort[$i];
+      for ($j = 6; $j >= 0; $j--) {
+        if($tmp_value[$j] == 1) {
+          array_push($tmp_result, $public_key[$j]);
         }
-        array_push($result_with_key, array_sum($tmp_result));
-        $tmp_result = array();
       }
-      echo "message codé : ";
-      foreach ($result_with_key as $values_in_key) {
-        echo "[ ", $values_in_key, " ]";
-      }
-      echo "\n";
+      array_push($result_with_key, array_sum($tmp_result));
+      $tmp_result = array();
     }
+    echo "Chiffrement effectué avec success, Bernard envoie le message suivant à alice : ";
+    foreach ($result_with_key as $values_in_key) {
+      echo "[ ", $values_in_key, " ]";
+    }
+    echo "\n";
+    return $result_with_key;
+
   }
 
   // main function
-  function cryptMessage($tab = array(), $mod, $e, $mess) {
-    resultPublicKeyEncode($tab, $mod, $e, $mess);
+  function cryptMessage($tab = array(), $mess) {
+    echo "Bernard à reçu la clé, il tente d'envoyer un message chiffré à Alice\n";
+    // on retourne le resultat
+    return resultPublicKeyEncode($tab, $mess);
   }

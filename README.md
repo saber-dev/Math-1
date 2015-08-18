@@ -16,8 +16,10 @@ Algorithme de hellman v0.1;
     README.md
 
 # Comment l'utiliser :
-  dans le fichier main :
-    - crypt();
-    - decrypt(la clé publique, l'inverse modulo, le modulo, le message, limiteur);
+    Pour lancer le fichier hellman.php :
+      - php hellman.php
+      - suivez les instructions une fois hellman lancé, vous etes Alice
+
+![alt tag](http://i2.kym-cdn.com/entries/icons/original/000/004/457/challenge.jpg)
 
 enjoie
