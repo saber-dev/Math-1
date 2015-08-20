@@ -11,7 +11,7 @@ Algorithme de hellman v0.1;
      - decrypt.php
      - keyCrypt.php
     modules :
-     - inv_mod_build.php
+     - inv_mod.php
      - super_croissante_check.php
     hellman.php
     README.md

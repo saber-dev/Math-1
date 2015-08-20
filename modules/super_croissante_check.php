@@ -39,7 +39,7 @@
           $tab_check = array();
       }
       // on affiche un message si c'est bien une suite supercroissante
-      echo "Apres vérification, alice confirme que c'est une suite supercroissante\n";
+      echo "Apres vérification, Alice confirme que c'est une suite supercroissante\n";
       return true;
     }
   }

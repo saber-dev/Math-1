@@ -2,7 +2,7 @@
 
   // includes files from other files
   include_once __DIR__."/../modules/super_croissante_check.php";
-  include_once __DIR__."/../modules/inv_mod_build.php";
+  include_once __DIR__."/../modules/inv_mod.php";
 
   function cryptMessageToBin($message) {
     $binary_encode  = array();

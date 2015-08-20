@@ -10,7 +10,7 @@
     $key_inv_mod     = inv_mod($e, $mod);
     $password_permut = null;
 
-    if (super_croissance_check($tab)) {
+    // if (super_croissance_check($tab)) {
       for ( $i = 0; $i < $length_tab; $i++) {
         $current_operation = ($tab[$i] * $e);
         $modulo_operation  = my_modulo($current_operation, $mod);
@@ -34,5 +34,5 @@
       }
       echo "]\n";
       return [$public_key, $password_permut];
-    }
+    // }
   }

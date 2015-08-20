@@ -1,6 +1,6 @@
 <?php
   include_once __DIR__."/../modules/super_croissante_check.php";
-  include_once __DIR__."/../modules/inv_mod_build.php";
+  include_once __DIR__."/../modules/inv_mod.php";
 
   // decoder le message
   function decryptMess($mess = array(), $mod, $d) {
