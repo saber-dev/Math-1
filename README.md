@@ -1,6 +1,6 @@
 # Math
 
-Algorithme de hellman v0.1;
+Algorithme de hellman v1;
 
 # Fichier principal :
  - hellman.php

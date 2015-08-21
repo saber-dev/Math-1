@@ -29,7 +29,7 @@
     for ($i = 0; $i < $length_mess; $i++) {
       $tmp_mess .= $message_bin[$i];
       // le limiteur est la
-      if ($count_numbers === $bloc_limit) {
+      if ($count_numbers == $bloc_limit) {
         array_push($bin_array, strrev($tmp_mess));
         $tmp_mess = null;
         $count_numbers = 0;
@@ -75,14 +75,11 @@
     }
     echo "
                 Chiffrement effectué avec success, Bernard envoie le message suivant à alice : ";
-    var_dump($result_with_key);
     foreach ($result_with_key as $values_in_key) {
       echo "[ ", $values_in_key, " ]";
     }
     echo "\n";
-    var_dump($result_with_key);
     return $result_with_key;
-
   }
 
   // main function

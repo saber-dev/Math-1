@@ -99,7 +99,8 @@
       $mess_decoded .= chr(bindec($result_values));
     }
     echo "
-                Alice reçoit Le Message, et trouve comme Message une fois dechiffré :\n[ ", $mess_decoded, " ]\n";
+                Alice reçoit Le Message, et trouve comme Message une fois dechiffré :\n",
+                "                ", $mess_decoded, "\n";
   }
 
   // decoder la clé publique
