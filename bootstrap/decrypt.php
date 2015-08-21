@@ -13,7 +13,7 @@
   }
 
   //fonction permettant de transformer le message codé en binaire
-  function decryptMessToBin($key = array(), $mess = array()) {
+  function decryptMessToBin($key = array(), $mess = array(), $bloc_limit) {
     $key_count      = count_tab($key);
     $mess_count     = count_tab($mess);
     $result         = null;
@@ -23,6 +23,7 @@
     $array_new      = array();
     $array_sort     = array();
     $sort_bin_array = array();
+    $bloc_limit     = $bloc_limit - 1;
 
     // on met le tableau non ordonné dans un tableau vide
     $array_new = $key;
@@ -52,7 +53,7 @@
         }
         // dans le cas ou si jamais une piece du tableau comporte des zero
         // la variable K doit etre égal au limiteur - 1, par exemple si on utilise 7 comme limiteur, alors k devra 6
-        for ($k = 6; $k >= 0; $k--) {
+        for ($k = $bloc_limit; $k >= 0; $k--) {
           if (in_array($key[$k], $tmp_array)) {
             $bin_result .= 1;
           }
@@ -66,7 +67,6 @@
       }
     }
     $sort_bin_array = sortBinMess($full_bin_mess);
-    // echo $full_bin_mess, "\n";
     sortBinMessToRealMess($sort_bin_array);
   }
 
@@ -82,12 +82,12 @@
       $tmp_mess .= $mess[$i];
       if ($count_numbers === 8) {
         array_push($bin_array, $tmp_mess);
-        $tmp_mess = null;
+        $tmp_mess      = null;
         $count_numbers = 0;
       }
       $count_numbers++;
     }
-    // retourner un array ordonné en 8bloc chacune
+    // retourner un array ordonné en 8 bloc chacune
     return $bin_array;
   }
 
@@ -98,7 +98,8 @@
     foreach ($tab as $result_values) {
       $mess_decoded .= chr(bindec($result_values));
     }
-    echo "Alice reçoit Le Message, et trouve comme Message une fois dechiffré : ", $mess_decoded, "\n";
+    echo "
+                Alice reçoit Le Message, et trouve comme Message une fois dechiffré :\n[ ", $mess_decoded, " ]\n";
   }
 
   // decoder la clé publique
@@ -117,28 +118,25 @@
   }
 
   // fonction maitresse
-  function decrypt($tab = array(),$e, $mod, $mess = array(), $passKey) {
-
-    $new_key = array();
-    // $key_array     = array();
+  function decrypt($tab = array(),$e, $mod, $mess = array(), $passKey, $bloc_limit) {
+    $new_key       = array();
     $message_array = array();
     // calcul de l'inverse modulaire
     $inverse       = inv_mod($e, $mod);
     $new_key       = passwd($passKey, $tab);
-    // $key_array     = decryptKey($tab, $inverse, $mod);
     $message_array = decryptMess($mess, $mod, $inverse);
 
-    decryptMessToBin($new_key, $message_array);
+    decryptMessToBin($new_key, $message_array, $bloc_limit);
   }
 
   // function permettant de dechiffrer le password
-  function passwd($string, $tab){
+  function passwd($passwd = array(), $tab = array()){
    $new_array    = array();
    $tmp_result   = null;
-   $count_string = strlen($string);
+   $count_passwd = count($passwd);
 
-   for ($i = 0;$i < $count_string;$i++){
-     $tmp_result = $string[$i];
+   for ($i = 0; $i < $count_passwd; $i++){
+     $tmp_result = $passwd[$i];
      array_push($new_array, $tab[$tmp_result]);
    }
    return $new_array;

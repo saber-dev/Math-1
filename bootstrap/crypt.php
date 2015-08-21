@@ -11,14 +11,12 @@
 
     for ($i = 0; $count_test > $i; $i++) {
       $current_result .= sprintf("%08d", decbin(ord($message[$i])));
-
-      // array_push($binary_encode, $current_result);
     }
     return $current_result;
   }
 
   // couper le message
-  function cutBinMessage($mess) {
+  function cutBinMessage($mess, $bloc_limit) {
     $message_bin      = null;
     $message_bin      = cryptMessageToBin($mess);
     $tmp_mess         = null;
@@ -30,7 +28,8 @@
     //pour couper le message en plusieur morceaux
     for ($i = 0; $i < $length_mess; $i++) {
       $tmp_mess .= $message_bin[$i];
-      if ($count_numbers === 7) {
+      // le limiteur est la
+      if ($count_numbers === $bloc_limit) {
         array_push($bin_array, strrev($tmp_mess));
         $tmp_mess = null;
         $count_numbers = 0;
@@ -38,7 +37,8 @@
       $count_numbers++;
     }
     // dans le cas ou il y a encore de bloc disponible, on le complete par des zero
-    for ( $j = strlen($tmp_mess); $j < 7; $j++) {
+    // ici le limiteur aussi
+    for ( $j = strlen($tmp_mess); $j < $bloc_limit; $j++) {
       $tmp_mess .= 0;
     }
     array_push($bin_array, strrev($tmp_mess));
@@ -46,8 +46,7 @@
   }
 
   // fonction pour calculer en fonction de la clé public
-  function resultPublicKeyEncode($public_key = array(), $mess) {
-    // $public_key      = array();
+  function resultPublicKeyEncode($public_key = array(), $mess, $bloc_limit) {
     $message_sort    = array();
     $result_with_key = array();
 
@@ -57,14 +56,16 @@
     $tmp_value  = null;
 
     // $public_key   = getPublicKey($tab, $mod, $e);
-    $message_sort = cutBinMessage($mess);
+    $message_sort = cutBinMessage($mess, $bloc_limit);
     // dans notre cas on va inverser le tableau en ordre croissant
     sort($public_key);
 
+    $bloc_limit      = $bloc_limit - 1;
     //il ne reste plus qu'a crée une boucle pour parcourir le tableau
     for ($i = 0; $i < count($message_sort); $i++) {
       $tmp_value = $message_sort[$i];
-      for ($j = 6; $j >= 0; $j--) {
+      // ici le limiteur doit etre le limiteur - 1
+      for ($j = $bloc_limit; $j >= 0; $j--) {
         if($tmp_value[$j] == 1) {
           array_push($tmp_result, $public_key[$j]);
         }
@@ -72,18 +73,20 @@
       array_push($result_with_key, array_sum($tmp_result));
       $tmp_result = array();
     }
-    echo "Chiffrement effectué avec success, Bernard envoie le message suivant à alice : ";
+    echo "
+                Chiffrement effectué avec success, Bernard envoie le message suivant à alice : ";
+    var_dump($result_with_key);
     foreach ($result_with_key as $values_in_key) {
       echo "[ ", $values_in_key, " ]";
     }
     echo "\n";
+    var_dump($result_with_key);
     return $result_with_key;
 
   }
 
   // main function
-  function cryptMessage($tab = array(), $mess) {
-    echo "Bernard à reçu la clé, il tente d'envoyer un message chiffré à Alice\n";
+  function cryptMessage($tab = array(), $mess, $bloc_limit) {
     // on retourne le resultat
-    return resultPublicKeyEncode($tab, $mess);
+    return resultPublicKeyEncode($tab, $mess, $bloc_limit);
   }
